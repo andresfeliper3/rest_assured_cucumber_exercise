@@ -9,33 +9,33 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.jetbrains.annotations.NotNull;
 
+import com.github.javafaker.Faker;
+
+
 import java.util.List;
+import java.util.Locale;
 
 public class ClientRequest extends BaseRequest {
-    private String endpoint;
+    private static final String endpoint = String.format(Constants.URL, Constants.CLIENTS_PATH);
+
 
     public Response getClients() {
-        endpoint = "";
         return requestGet(endpoint, createBaseHeaders());
     }
 
     public Response getClient(String clientId) {
-        endpoint = "";
         return requestGet(endpoint, createBaseHeaders());
     }
 
     public Response createClient(Client client) {
-        endpoint = "";
         return requestPost(endpoint, createBaseHeaders(), client);
     }
 
     public Response updateClient(Client client, String clientId) {
-        endpoint = "";
         return requestPut(endpoint, createBaseHeaders(), client);
     }
 
     public Response deleteClient(String clientId) {
-        endpoint = "";
         return requestDelete(endpoint, createBaseHeaders());
     }
 
@@ -51,6 +51,27 @@ public class ClientRequest extends BaseRequest {
     public Response createDefaultClient() {
         JsonFileReader jsonFile = new JsonFileReader();
         return this.createClient(jsonFile.getClientByJson(Constants.DEFAULT_CLIENT_FILE_PATH));
+    }
+
+    public Response createRandomClient() {
+        Faker faker = new Faker(new Locale("es_CO"));
+
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String country = faker.address().country();
+        String city = faker.address().cityName();
+        String email = faker.internet().emailAddress();
+        String phone = faker.phoneNumber().phoneNumber();
+
+        Client client = Client.builder()
+                .name(firstName)
+                .lastName(lastName)
+                .country(country)
+                .city(city)
+                .email(email)
+                .phone(phone)
+                .build();
+        return this.createClient(client);
     }
 
     public Client getClientEntity(String clientJson) {
