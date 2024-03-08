@@ -26,7 +26,6 @@
   "required": [
     "name",
     "lastName",
-    "gender",
     "country",
     "city",
     "email",
