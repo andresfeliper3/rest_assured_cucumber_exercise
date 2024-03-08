@@ -24,8 +24,7 @@ public class ClientSteps {
 
     @Given("there are at least {int} registered clients in the system")
     public void thereAreAtLeastRegisteredClientsInTheSystem(int requiredClientsAmount) {
-
-        response = clientRequest.getClients();
+        response = clientRequest.getAll();
         Assert.assertEquals(200, response.statusCode());
 
         List<Client> clientList = clientRequest.getClientsEntity(response);
@@ -33,7 +32,7 @@ public class ClientSteps {
         while(clientList.size() < requiredClientsAmount) {
             response = clientRequest.createRandomClient();
 
-            response = clientRequest.getClients();
+            response = clientRequest.getAll();
             clientList = clientRequest.getClientsEntity(response);
         }
         logger.info("There are " + clientList.size() + " registered clients in the system.");
@@ -42,13 +41,13 @@ public class ClientSteps {
     }
 
     @When("I send a GET request to retrieve all the list of clients")
-    public void iRetrieveAllTheListOfClients() {
-        response = clientRequest.getClients();
+    public void iSendAGETRequestToRetrieveAllTheListOfClients() {
+        response = clientRequest.getAll();
         logger.info("Status code is: " + response.statusCode());
     }
 
-    @Then("the response should have a status code of {int}")
-    public void theResponseShouldHaveAStatusCodeOf(int statusCode) {
+    @Then("the clients response should have a status code of {int}")
+    public void theClientsResponseShouldHaveAStatusCodeOf(int statusCode) {
         Assert.assertEquals(statusCode, response.statusCode());
     }
 

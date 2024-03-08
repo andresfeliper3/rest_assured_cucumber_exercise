@@ -16,27 +16,20 @@ import java.util.List;
 import java.util.Locale;
 
 public class ClientRequest extends BaseRequest {
-    private static final String endpoint = String.format(Constants.URL, Constants.CLIENTS_PATH);
+    private static final String ENDPOINT = String.format(Constants.URL, Constants.CLIENTS_PATH);
 
 
-    public Response getClients() {
-        return requestGet(endpoint, createBaseHeaders());
-    }
-
-    public Response getClient(String clientId) {
-        return requestGet(endpoint, createBaseHeaders());
-    }
 
     public Response createClient(Client client) {
-        return requestPost(endpoint, createBaseHeaders(), client);
+        return requestPost(ENDPOINT, createBaseHeaders(), client);
     }
 
     public Response updateClient(Client client, String clientId) {
-        return requestPut(endpoint, createBaseHeaders(), client);
+        return requestPut(ENDPOINT, createBaseHeaders(), client);
     }
 
     public Response deleteClient(String clientId) {
-        return requestDelete(endpoint, createBaseHeaders());
+        return requestDelete(ENDPOINT, createBaseHeaders());
     }
 
     public Client getClientEntity(@NotNull Response response) {
@@ -54,8 +47,6 @@ public class ClientRequest extends BaseRequest {
     }
 
     public Response createRandomClient() {
-        Faker faker = new Faker(new Locale("es_CO"));
-
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
         String country = faker.address().country();
@@ -79,15 +70,9 @@ public class ClientRequest extends BaseRequest {
         return gson.fromJson(clientJson, Client.class);
     }
 
-    public boolean validateSchema(Response response, String schemaPath) {
-        try {
-            response.then()
-                    .assertThat()
-                    .body(JsonSchemaValidator.matchesJsonSchemaInClasspath(schemaPath));
-            return true; // Return true if the assertion passes
-        } catch (AssertionError e) {
-            // Assertion failed, return false
-            return false;
-        }
+
+    @Override
+    protected String getEndpoint() {
+        return ENDPOINT;
     }
 }
