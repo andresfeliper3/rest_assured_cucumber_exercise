@@ -41,7 +41,7 @@ public class ClientSteps {
         Assert.assertTrue(clientList.size() >= requiredClientsAmount);
     }
 
-    @When("I retrieve all the list of clients")
+    @When("I send a GET request to retrieve all the list of clients")
     public void iRetrieveAllTheListOfClients() {
         response = clientRequest.getClients();
         logger.info("Status code is: " + response.statusCode());
@@ -52,7 +52,7 @@ public class ClientSteps {
         Assert.assertEquals(statusCode, response.statusCode());
     }
 
-    @And("validates the response with client JSON schema")
+    @And("validates the response with client list JSON schema")
     public void validatesTheResponseWithClientJSONSchema() {
         String path = "schemas/clientListSchema.json";
         Assert.assertTrue(clientRequest.validateSchema(response, path));
