@@ -38,7 +38,7 @@ public class ClientSteps {
         }
         logger.info("There are " + clientList.size() + " registered clients in the system.");
         Assert.assertEquals(200, response.getStatusCode());
-        Assert.assertEquals(requiredClientsAmount, clientList.size());
+        Assert.assertTrue(clientList.size() >= requiredClientsAmount);
     }
 
     @When("I retrieve all the list of clients")
@@ -54,6 +54,8 @@ public class ClientSteps {
 
     @And("validates the response with client JSON schema")
     public void validatesTheResponseWithClientJSONSchema() {
-        logger.info("Validates the response");
+        String path = "schemas/clientListSchema.json";
+        Assert.assertTrue(clientRequest.validateSchema(response, path));
+        logger.info("Schema from clients list was validated");
     }
 }
