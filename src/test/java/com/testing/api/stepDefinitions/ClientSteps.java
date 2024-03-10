@@ -53,6 +53,7 @@ public class ClientSteps {
                 .email(clientMap.get(0).get("Email"))
                 .phone(clientMap.get(0).get("Phone"))
                 .build();
+        logger.info("Predefined client created");
     }
 
     @When("I send a GET request to retrieve all the list of clients")
@@ -72,7 +73,6 @@ public class ClientSteps {
 
     @Then("the new client request should have a status code of {int}")
     public void theNewClientRequestShouldHaveAStatusCodeOf(int statusCode) {
-        logger.info("Status code is: " + response.statusCode());
         Assert.assertEquals(statusCode, response.statusCode());
     }
 
@@ -88,7 +88,14 @@ public class ClientSteps {
     public void theResponseShouldIncludeTheDetailsOfTheCreatedClient() {
         Client returnedClient = clientRequest.getClientEntity(response);
         Assert.assertEquals(client.getName(), returnedClient.getName());
-        //complete this
+        Assert.assertEquals(client.getLastName(), returnedClient.getLastName());
+        Assert.assertEquals(client.getCountry(), returnedClient.getCountry());
+        Assert.assertEquals(client.getCity(), returnedClient.getCity());
+        Assert.assertEquals(client.getEmail(), returnedClient.getEmail());
+        Assert.assertEquals(client.getPhone(), returnedClient.getPhone());
+        Assert.assertEquals(client.getId(), returnedClient.getId());
+        logger.info("The sent client contains the same details as the predefined client.");
+
     }
 
     @And("validates the new client response with the client JSON schema")
