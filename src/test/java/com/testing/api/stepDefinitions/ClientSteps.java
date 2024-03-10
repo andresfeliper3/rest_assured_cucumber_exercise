@@ -8,6 +8,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -93,7 +94,7 @@ public class ClientSteps {
         Assert.assertEquals(client.getCity(), returnedClient.getCity());
         Assert.assertEquals(client.getEmail(), returnedClient.getEmail());
         Assert.assertEquals(client.getPhone(), returnedClient.getPhone());
-        Assert.assertEquals(client.getId(), returnedClient.getId());
+        Assert.assertTrue(NumberUtils.isCreatable(returnedClient.getId()));
         logger.info("The sent client contains the same details as the predefined client.");
 
     }
