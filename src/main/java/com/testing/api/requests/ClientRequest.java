@@ -46,6 +46,7 @@ public class ClientRequest extends BaseRequest {
         return this.createClient(jsonFile.getClientByJson(Constants.DEFAULT_CLIENT_FILE_PATH));
     }
 
+
     public Response createRandomClient() {
         String firstName = faker.name().firstName();
         String lastName = faker.name().lastName();
