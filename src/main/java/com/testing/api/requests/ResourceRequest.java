@@ -2,7 +2,7 @@ package com.testing.api.requests;
 
 import com.testing.api.models.Resource;
 import com.testing.api.utils.Constants;
-import com.testing.api.utils.JsonFileReader;
+import com.testing.api.utils.JsonReader;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.jetbrains.annotations.NotNull;
@@ -63,7 +63,7 @@ public class ResourceRequest extends BaseRequest {
      * @return Response received from the server
      */
     public Response updateResourceFromJsonString(String jsonString, String resourceId) {
-        JsonFileReader jsonFile = new JsonFileReader();
+        JsonReader jsonFile = new JsonReader();
         return this.updateResource(jsonFile.getResourceByJsonString(jsonString), resourceId);
     }
 

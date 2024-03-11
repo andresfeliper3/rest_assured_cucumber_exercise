@@ -3,17 +3,13 @@ package com.testing.api.requests;
 import com.google.gson.Gson;
 import com.testing.api.models.Client;
 import com.testing.api.utils.Constants;
-import com.testing.api.utils.JsonFileReader;
-import io.restassured.module.jsv.JsonSchemaValidator;
+import com.testing.api.utils.JsonReader;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.jetbrains.annotations.NotNull;
 
-import com.github.javafaker.Faker;
-
 
 import java.util.List;
-import java.util.Locale;
 
 public class ClientRequest extends BaseRequest {
     private static final String ENDPOINT = String.format(Constants.URL, Constants.CLIENTS_PATH);
@@ -68,8 +64,8 @@ public class ClientRequest extends BaseRequest {
     }
 
     public Response createDefaultClient() {
-        JsonFileReader jsonFile = new JsonFileReader();
-        return this.createClient(jsonFile.getClientByJson(Constants.DEFAULT_CLIENT_FILE_PATH));
+        JsonReader jsonFile = new JsonReader();
+        return this.createClient(jsonFile.getClientByJsonFileName(Constants.DEFAULT_CLIENT_FILE_PATH));
     }
 
 
