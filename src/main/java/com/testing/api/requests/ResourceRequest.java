@@ -28,6 +28,7 @@ public class ResourceRequest extends BaseRequest {
     public Resource getResourceEntity(@NotNull Response response) {
         return response.as(Resource.class);
     }
+
     public List<Resource> getResponsesEntity(@NotNull Response response) {
         JsonPath jsonPath = response.jsonPath();
         return jsonPath.getList("", Resource.class);
@@ -53,7 +54,7 @@ public class ResourceRequest extends BaseRequest {
                 .price(price)
                 .description(description)
                 .tags(tags)
-                .isActive(isActive)
+                .active(isActive)
                 .build();
         return this.createResource(resource);
     }

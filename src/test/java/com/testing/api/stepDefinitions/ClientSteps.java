@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ClientSteps {
+    private static final String CLIENTS_LIST_SCHEMA_PATH = "schemas/clientListSchema.json";
+    private static final String CLIENT_SCHEMA_PATH = "schemas/clientSchema.json";
     private static final Logger logger = LogManager.getLogger(ClientSteps.class);
-
     private final ClientRequest clientRequest = new ClientRequest();
-
     private Response response;
     private Client client;
 
@@ -79,8 +79,7 @@ public class ClientSteps {
 
     @And("validates the response with client list JSON schema")
     public void validatesTheResponseWithClientJSONSchema() {
-        String path = "schemas/clientListSchema.json";
-        Assert.assertTrue(clientRequest.validateSchema(response, path));
+        Assert.assertTrue(clientRequest.validateSchema(response, CLIENTS_LIST_SCHEMA_PATH));
         logger.info("Schema from clients list was validated");
     }
 
@@ -101,8 +100,7 @@ public class ClientSteps {
 
     @And("validates the new client response with the client JSON schema")
     public void validatesTheNewClientResponseWithTheClientJSONSchema() {
-        String path = "schemas/clientSchema.json";
-        Assert.assertTrue(clientRequest.validateSchema(response, path));
+        Assert.assertTrue(clientRequest.validateSchema(response, CLIENT_SCHEMA_PATH));
         logger.info("Schema from client creation response was validated");
     }
 

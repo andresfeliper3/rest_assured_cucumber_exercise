@@ -17,6 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ResourceSteps {
+    private static final String RESOURCES_LIST_SCHEMA_PATH = "schemas/resourceListSchema.json";
+
+    private static final String RESOURCE_SCHEMA_PATH = "schemas/resourceSchema.json";
+
     private static final Logger logger = LogManager.getLogger(ResourceSteps.class);
     private final ResourceRequest resourceRequest = new ResourceRequest();
     private Response response;
@@ -27,9 +31,7 @@ public class ResourceSteps {
     public void thereAreAtLeastRegisteredResourcesInTheSystem(int requiredResourcesAmount) {
         response = resourceRequest.getAll();
         Assert.assertEquals(200, response.statusCode());
-
         resourceList = resourceRequest.getResponsesEntity(response);
-
         while(resourceList.size() < requiredResourcesAmount) {
             response = resourceRequest.createRandomResource();
 
@@ -45,7 +47,6 @@ public class ResourceSteps {
     @When("I send a GET request to retrieve all the list of resources")
     public void iSendAGETRequestToRetrieveAllTheListOfResources() {
         response = resourceRequest.getAll();
-        logger.info("Status code is: " + response.statusCode());
     }
 
     @When("I send a PUT request to update the latest resource")
@@ -55,6 +56,7 @@ public class ResourceSteps {
 
     @Then("the resources response should have a status code of {int}")
     public void theResourcesResponseShouldHaveAStatusCodeOf(int statusCode) {
+        logger.info("The GET response has a status code: " + response.statusCode());
         Assert.assertEquals(statusCode, response.statusCode());
     }
 
@@ -65,8 +67,7 @@ public class ResourceSteps {
 
     @And("validates the response with resource list JSON schema")
     public void validatesTheResponseWithResourceListJSONSchema() {
-        String path = "schemas/resourceListSchema.json";
-        Assert.assertTrue(resourceRequest.validateSchema(response, path));
+        Assert.assertTrue(resourceRequest.validateSchema(response, RESOURCES_LIST_SCHEMA_PATH));
         logger.info("Schema from resources list was validated");
     }
 
@@ -80,7 +81,7 @@ public class ResourceSteps {
                 .price(Double.parseDouble(resourceMap.get(0).get("Price")))
                 .description(resourceMap.get(0).get("Description"))
                 .tags(resourceMap.get(0).get("Tags"))
-                .isActive(Boolean.parseBoolean(resourceMap.get(0).get("is_active")))
+                .active(Boolean.parseBoolean(resourceMap.get(0).get("Active")))
                 .build();
         Resource returnedResource = resourceRequest.getResourceEntity(response);
 
@@ -96,8 +97,7 @@ public class ResourceSteps {
 
     @And("validates the response with the resource JSON schema")
     public void validatesTheResponseWithTheResourceJSONSchema() {
-        String path = "schemas/resourceSchema.json";
-        Assert.assertTrue(resourceRequest.validateSchema(response, path));
+        Assert.assertTrue(resourceRequest.validateSchema(response, RESOURCE_SCHEMA_PATH));
         logger.info("Schema from resources update response was validated");
     }
 
