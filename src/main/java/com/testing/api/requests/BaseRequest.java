@@ -42,13 +42,15 @@ public abstract class BaseRequest {
                           .post(endpoint);
     }
 
-    protected Response requestPut(String endpoint, Map<String, ?> headers, Object body) {
+    protected Response requestPut(String endpoint, Map<String, ?> headers, String id, Object body) {
+        String updatedEndpoint = endpoint + "/" + id;
+
         return RestAssured.given()
-                          .contentType(Constants.VALUE_CONTENT_TYPE)
-                          .headers(headers)
-                          .body(body)
-                          .when()
-                          .put(endpoint);
+                .contentType(Constants.VALUE_CONTENT_TYPE)
+                .headers(headers)
+                .body(body)
+                .when()
+                .put(updatedEndpoint);
     }
 
     protected Response requestDelete(String endpoint, Map<String, ?> headers) {

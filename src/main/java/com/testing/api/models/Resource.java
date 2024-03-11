@@ -17,7 +17,9 @@ public class Resource {
     private double price;
     private String description;
     private String tags;
+
     @JsonProperty("is_active")
     private boolean isActive;
     private String id;
+
 }

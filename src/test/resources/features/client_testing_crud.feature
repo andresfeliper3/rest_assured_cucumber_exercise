@@ -33,7 +33,7 @@ Feature: Client testing CRUD
   """
   {
     "name": "newName",
-    "trademark": "NewTradeMark",
+    "trademark": "newTradeMark",
     "stock": 1000,
     "price": 99.99,
     "description": "description",
@@ -43,6 +43,6 @@ Feature: Client testing CRUD
   """
   Then the resources response should have a status code of 200
   And the response should have the following details:
-    | name | trademark | stock | price | description | tags | is_active |
+    | Name | Trademark | Stock | Price | Description | Tags | Is_active |
     | newName | newTradeMark | 1000 | 99.99 | description | NewTag | true |
   And validates the response with the resource JSON schema

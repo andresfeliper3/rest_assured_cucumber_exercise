@@ -21,18 +21,21 @@ public class ResourceRequest extends BaseRequest {
         return requestPost(ENDPOINT, createBaseHeaders(), resource);
     }
 
-    public Response updateResource(Resource resource) {
-        return requestPut(ENDPOINT, createBaseHeaders(), resource);
+    public Response updateResource(Resource resource, String resourceId) {
+        return requestPut(ENDPOINT, createBaseHeaders(), resourceId, resource);
     }
 
+    public Resource getResourceEntity(@NotNull Response response) {
+        return response.as(Resource.class);
+    }
     public List<Resource> getResponsesEntity(@NotNull Response response) {
         JsonPath jsonPath = response.jsonPath();
         return jsonPath.getList("", Resource.class);
     }
 
-    public Response updateResourceFromJsonString(String jsonString) {
+    public Response updateResourceFromJsonString(String jsonString, String resourceId) {
         JsonFileReader jsonFile = new JsonFileReader();
-        return this.updateResource(jsonFile.getResourceByJsonString(jsonString));
+        return this.updateResource(jsonFile.getResourceByJsonString(jsonString), resourceId);
     }
     public Response createRandomResource() {
         String name = faker.commerce().productName();

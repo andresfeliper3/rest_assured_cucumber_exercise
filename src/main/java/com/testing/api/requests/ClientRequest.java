@@ -25,7 +25,7 @@ public class ClientRequest extends BaseRequest {
     }
 
     public Response updateClient(Client client, String clientId) {
-        return requestPut(ENDPOINT, createBaseHeaders(), client);
+        return requestPut(ENDPOINT, createBaseHeaders(), clientId, client);
     }
 
     public Response deleteClient(String clientId) {

@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 
 import java.util.List;
+import java.util.Map;
 
 public class ResourceSteps {
     private static final Logger logger = LogManager.getLogger(ResourceSteps.class);
@@ -49,7 +50,7 @@ public class ResourceSteps {
 
     @When("I send a PUT request to update the latest resource")
     public void iSendAPUTRequestToUpdateTheLatestResource(String requestBody) {
-        response = resourceRequest.updateResourceFromJsonString(requestBody);
+        response = resourceRequest.updateResourceFromJsonString(requestBody, resource.getId());
     }
 
     @Then("the resources response should have a status code of {int}")
@@ -71,7 +72,26 @@ public class ResourceSteps {
 
     @And("the response should have the following details:")
     public void theResponseShouldHaveTheFollowingDetails(DataTable dataTable) {
-        logger.debug("This is missing");
+        List<Map<String, String>> resourceMap = dataTable.asMaps(String.class, String.class);
+        resource = Resource.builder()
+                .name(resourceMap.get(0).get("Name"))
+                .trademark(resourceMap.get(0).get("Trademark"))
+                .stock(Long.parseLong(resourceMap.get(0).get("Stock")))
+                .price(Double.parseDouble(resourceMap.get(0).get("Price")))
+                .description(resourceMap.get(0).get("Description"))
+                .tags(resourceMap.get(0).get("Tags"))
+                .isActive(Boolean.parseBoolean(resourceMap.get(0).get("is_active")))
+                .build();
+        Resource returnedResource = resourceRequest.getResourceEntity(response);
+
+        Assert.assertEquals(resource.getName(), returnedResource.getName());
+        Assert.assertEquals(resource.getTrademark(), returnedResource.getTrademark());
+        Assert.assertEquals(resource.getStock(), returnedResource.getStock());
+        Assert.assertEquals(resource.getPrice(), returnedResource.getPrice(), 0.0);
+        Assert.assertEquals(resource.getDescription(), returnedResource.getDescription());
+        Assert.assertEquals(resource.getTags(), returnedResource.getTags());
+        Assert.assertEquals(resource.isActive(), returnedResource.isActive());
+        logger.debug("The response contains the details that were sent in the predefined resource.");
     }
 
     @And("validates the response with the resource JSON schema")
