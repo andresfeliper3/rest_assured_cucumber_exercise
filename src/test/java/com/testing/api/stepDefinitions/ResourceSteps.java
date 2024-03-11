@@ -31,12 +31,12 @@ public class ResourceSteps {
     public void thereAreAtLeastRegisteredResourcesInTheSystem(int requiredResourcesAmount) {
         response = resourceRequest.getAll();
         Assert.assertEquals(200, response.statusCode());
-        resourceList = resourceRequest.getResponsesEntity(response);
+        resourceList = resourceRequest.getResourcesEntity(response);
         while(resourceList.size() < requiredResourcesAmount) {
             response = resourceRequest.createRandomResource();
 
             response = resourceRequest.getAll();
-            resourceList = resourceRequest.getResponsesEntity(response);
+            resourceList = resourceRequest.getResourcesEntity(response);
         }
         logger.info("There are " + resourceList.size() + " registered resources in the system.");
         Assert.assertEquals(200, response.getStatusCode());
